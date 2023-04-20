@@ -36,25 +36,31 @@ public class consulta_suplidor extends javax.swing.JFrame {
 //        Statement st = null;
 //        Connection conn = conex.getconection();
 //        
-        Consulta = "Select * from suplidor";
+//        Consulta = "Select * from suplidor";
+          Consulta = "select s.idsuplidor, s.razon_social, s.procedencia, (p.nompersona +' '+p.apepersona) Suplidor, st.desc_status from suplidor s " +
+                    " inner join persona p " +
+                    " on s.persona_idpersona = p.idpersona " +
+                    " inner join status st " +
+                    " on st.idstatus = s.status_idstatus";
 //        
-        Vector v = new Vector();
+        
         
         DefaultTableModel modelo = (DefaultTableModel) tbBuscar.getModel();
         modelo.setRowCount(0);
         res = conex.listar(Consulta);
         try{
             while(res.next()){
-                
+                Vector v = new Vector();
                 v.add(res.getInt(1));
                 v.add(res.getString(2));
                 v.add(res.getString(3));
-                v.add(res.getInt(4));
-                v.add(res.getInt(5));
+                v.add(res.getString(4));
+                v.add(res.getString(5));
                 
                 modelo.addRow(v);
-                tbBuscar.setModel(modelo);
             }
+            
+                tbBuscar.setModel(modelo);
         }catch (SQLException e){
             JOptionPane.showMessageDialog(null, e);
                     
@@ -127,15 +133,23 @@ public class consulta_suplidor extends javax.swing.JFrame {
 
         tbBuscar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Codigo", "Razon Social", "Procedencia", "Responsable", "Status"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tbBuscar);
 
         btnSalir.setBackground(new java.awt.Color(51, 51, 51));

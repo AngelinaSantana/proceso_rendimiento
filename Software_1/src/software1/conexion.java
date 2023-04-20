@@ -20,10 +20,10 @@ import javax.swing.JOptionPane;
 public class conexion{
     public Connection getconection() throws Exception{
         try{
-            String connectionUrl = "jdbc:sqlserver://DESKTOP-HM82LV0:1433;"
+            String connectionUrl = "jdbc:sqlserver://localhost:1433;"
                     + "databasename=proceso_tratamiento;"
-                    + "user=sa;"
-                    + "password= 1234;";
+                    + "user=angelina;"
+                    + "password= chatbot;";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 //            Class.forName("com.microsoft.sqlserver.jdbc.");
 
