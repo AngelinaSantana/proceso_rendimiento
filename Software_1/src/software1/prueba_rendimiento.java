@@ -4,7 +4,13 @@
  * and open the template in the editor.
  */
 package software1;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 /**
  *
  * @author Angelina
@@ -16,6 +22,7 @@ public class prueba_rendimiento extends javax.swing.JFrame {
      */
     public prueba_rendimiento() {
         initComponents();
+         this.setTitle("Prueba de rendimiento");
     }
 
     /**
@@ -69,10 +76,12 @@ public class prueba_rendimiento extends javax.swing.JFrame {
         jTextField5 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jTextField6 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
+        btnBorrar = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
+        btnBuscar_suplidor = new javax.swing.JButton();
+        btnBuscar_materia = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -237,39 +246,75 @@ public class prueba_rendimiento extends javax.swing.JFrame {
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(59, 374, -1, -1));
         jPanel1.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 376, 276, -1));
 
-        jButton1.setBackground(new java.awt.Color(51, 51, 51));
-        jButton1.setText("NUEVO");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnNuevo.setBackground(new java.awt.Color(51, 51, 51));
+        btnNuevo.setText("NUEVO");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnNuevoActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(191, 775, 114, 35));
+        jPanel1.add(btnNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(191, 775, 114, 35));
 
-        jButton2.setBackground(new java.awt.Color(51, 51, 51));
-        jButton2.setText("MODIFICAR");
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 770, 120, 40));
+        btnModificar.setBackground(new java.awt.Color(51, 51, 51));
+        btnModificar.setText("MODIFICAR");
+        jPanel1.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 770, 120, 40));
 
-        jButton3.setBackground(new java.awt.Color(51, 51, 51));
-        jButton3.setText("BORRAR");
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(627, 770, 100, 40));
+        btnBorrar.setBackground(new java.awt.Color(51, 51, 51));
+        btnBorrar.setText("BORRAR");
+        jPanel1.add(btnBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(627, 770, 100, 40));
 
-        jButton4.setBackground(new java.awt.Color(51, 51, 51));
-        jButton4.setText("SALIR");
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 770, 100, 40));
+        btnSalir.setBackground(new java.awt.Color(51, 51, 51));
+        btnSalir.setText("SALIR");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 770, 100, 40));
+
+        btnBuscar_suplidor.setText("Buscar");
+        btnBuscar_suplidor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscar_suplidorActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBuscar_suplidor, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 330, -1, -1));
+
+        btnBuscar_materia.setText("Buscar");
+        btnBuscar_materia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscar_materiaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBuscar_materia, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 290, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 829));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox3ActionPerformed
+
+    private void btnBuscar_suplidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar_suplidorActionPerformed
+       consulta_suplidor V = new consulta_suplidor();      // creamos una ventana consulta de suplidor
+        V.setVisible(true);
+        
+    }//GEN-LAST:event_btnBuscar_suplidorActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnBuscar_materiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar_materiaActionPerformed
+       consulta_materia_prima Vp = new consulta_materia_prima();      // creamos una ventana consulta de materia prima
+        Vp.setVisible(true);
+    }//GEN-LAST:event_btnBuscar_materiaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -307,10 +352,12 @@ public class prueba_rendimiento extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnBorrar;
+    private javax.swing.JButton btnBuscar_materia;
+    private javax.swing.JButton btnBuscar_suplidor;
+    private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnNuevo;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
