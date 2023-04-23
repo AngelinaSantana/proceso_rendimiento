@@ -6,10 +6,14 @@
 package software1;
 
 import com.sun.istack.internal.logging.Logger;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
-import javax.swing.JOptionPane;
-import java.util.Vector;
+import javax.swing.*;
+import java.util.*;
+import javax.swing.JTable;
 
 
 
@@ -19,13 +23,21 @@ import java.util.Vector;
  */
 public class consulta_suplidor extends javax.swing.JFrame {
 
+        
     /**
      * Creates new form consulta_suplidor
      */
-
+//    String codigo = this.prueba_rendi.obtenercodigo(cod);
+    
+    String cod_sup;
+    String name_sup;
+    String cod_mat; 
+    String name_mat;
 
     public consulta_suplidor() {
-        initComponents();
+        initComponents();  
+        
+
 
     }
     public void CargarSuplidor() {
@@ -42,9 +54,7 @@ public class consulta_suplidor extends javax.swing.JFrame {
                     " on s.persona_idpersona = p.idpersona " +
                     " inner join status st " +
                     " on st.idstatus = s.status_idstatus";
-//        
-        
-        
+
         DefaultTableModel modelo = (DefaultTableModel) tbBuscar.getModel();
         modelo.setRowCount(0);
         res = conex.listar(Consulta);
@@ -61,6 +71,7 @@ public class consulta_suplidor extends javax.swing.JFrame {
             }
             
                 tbBuscar.setModel(modelo);
+                
         }catch (SQLException e){
             JOptionPane.showMessageDialog(null, e);
                     
@@ -68,7 +79,46 @@ public class consulta_suplidor extends javax.swing.JFrame {
         
         
     }
+    
+    public void buscar(){
+        
+    }
+    
+    public void buscar(String cod_sup, String name_sup, String cod_mat, String name_mat){
 
+        this.cod_sup=cod_sup;
+        this.name_sup=name_sup;
+        
+        this.cod_mat=cod_mat; 
+        this.name_mat=name_mat;
+
+    }
+    
+    public void Seleccion_registro(){
+
+        DefaultTableModel model = (DefaultTableModel) this.tbBuscar.getModel();
+        
+        String cod_sup = model.getValueAt(tbBuscar.getSelectedRow(), 0).toString(); 
+        String name_sup = model.getValueAt(tbBuscar.getSelectedRow(), 1).toString(); 
+        
+        prueba_rendimiento prueba_rendi = new prueba_rendimiento();
+        
+//        prueba_rendi.txtcodigo_sup.setText(cod);
+//        prueba_rendi.txtname_sup.setText(name);
+//        prueba_rendi.codigo_sup=cod;
+//        prueba_rendi.name_sup=name;
+        
+//        prueba_rendi.cod_mat=this.cod_mat;
+//        prueba_rendi.name_mat=this.name_mat;
+        
+        prueba_rendi.busqueda(cod_sup, name_sup, this.cod_mat, this.name_mat);
+        prueba_rendi.setVisible(true);
+        
+        this.setVisible(false);
+
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -81,11 +131,12 @@ public class consulta_suplidor extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbBuscar = new javax.swing.JTable();
         btnSalir = new javax.swing.JButton();
+        btnseleccion = new javax.swing.JButton();
+        txtsuplidor = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -114,13 +165,6 @@ public class consulta_suplidor extends javax.swing.JFrame {
                 .addContainerGap(90, Short.MAX_VALUE))
         );
 
-        txtBuscar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtBuscarActionPerformed(evt);
-            }
-        });
-
         btnBuscar.setBackground(new java.awt.Color(51, 51, 51));
         btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscar.setText("Buscar");
@@ -133,10 +177,7 @@ public class consulta_suplidor extends javax.swing.JFrame {
 
         tbBuscar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Codigo", "Razon Social", "Procedencia", "Responsable", "Status"
@@ -148,6 +189,11 @@ public class consulta_suplidor extends javax.swing.JFrame {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        tbBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbBuscarMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tbBuscar);
@@ -162,40 +208,55 @@ public class consulta_suplidor extends javax.swing.JFrame {
             }
         });
 
+        btnseleccion.setBackground(new java.awt.Color(51, 51, 51));
+        btnseleccion.setForeground(new java.awt.Color(255, 255, 255));
+        btnseleccion.setText("Seleccion");
+        btnseleccion.setActionCommand("btnBuscar");
+        btnseleccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnseleccionActionPerformed(evt);
+            }
+        });
+
+        txtsuplidor.setEditable(false);
+        txtsuplidor.setBackground(new java.awt.Color(255, 255, 255));
+        txtsuplidor.setColumns(20);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtsuplidor, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(118, 118, 118)
                         .addComponent(btnBuscar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSalir))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 804, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(29, Short.MAX_VALUE))
+                        .addComponent(btnSalir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnseleccion))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 804, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(51, 51, 51)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar)
-                    .addComponent(btnSalir))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnBuscar)
+                        .addComponent(btnSalir)
+                        .addComponent(btnseleccion))
+                    .addComponent(txtsuplidor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 115, Short.MAX_VALUE))
         );
 
-        txtBuscar.getAccessibleContext().setAccessibleName("txtBuscar");
         btnBuscar.getAccessibleContext().setAccessibleName("btnBuscar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -216,13 +277,19 @@ public class consulta_suplidor extends javax.swing.JFrame {
         this.CargarSuplidor();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtBuscarActionPerformed
-
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
+    private void tbBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbBuscarMouseClicked
+        this.Seleccion_registro();
+//       consulta_suplidor cs = new consulta_suplidor();
+//       cs.setVisible(false);
+    }//GEN-LAST:event_tbBuscarMouseClicked
+
+    private void btnseleccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnseleccionActionPerformed
+         
+        
+    }//GEN-LAST:event_btnseleccionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -262,11 +329,16 @@ public class consulta_suplidor extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JButton btnseleccion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbBuscar;
-    private javax.swing.JTextField txtBuscar;
+    public javax.swing.JTextField txtsuplidor;
     // End of variables declaration//GEN-END:variables
+
+//    private String setText(String toString) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 }

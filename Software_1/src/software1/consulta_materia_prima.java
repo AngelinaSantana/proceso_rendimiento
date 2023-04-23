@@ -5,17 +5,104 @@
  */
 package software1;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+
 /**
  *
  * @author Angelina
  */
 public class consulta_materia_prima extends javax.swing.JFrame {
-
+    String cod_sup;
+    String name_sup;
+    String cod_mat; 
+    String name_mat;
     /**
      * Creates new form consulta_materia_prima
      */
     public consulta_materia_prima() {
         initComponents();
+        this.CargarMateriaPrima();
+    }
+    public void CargarMateriaPrima() {
+        String Consulta;
+        conexion conex = new conexion();
+        ResultSet res;
+//        int Rs;
+//        Statement st = null;
+//        Connection conn = conex.getconection();
+//        
+//        Consulta = "Select * from materia_prima";
+          Consulta = "select m.idmateria_prima, m.desc_materia_prima, s.razon_social, st.desc_status from materia_prima m " +
+                    " inner join suplidor s " +
+                    " on s.idsuplidor = m.suplidor_idsuplidor " +
+                    " inner join status st " +
+                    " on st.idstatus = s.status_idstatus";
+//        
+        
+        
+        DefaultTableModel modelo = (DefaultTableModel) tbBuscar.getModel();
+        modelo.setRowCount(0);
+        res = conex.listar(Consulta);
+        try{
+            while(res.next()){
+                Vector v = new Vector();
+                v.add(res.getInt(1));
+                v.add(res.getString(2));
+                v.add(res.getInt(3));
+                v.add(res.getInt(4));
+                v.add(res.getInt(5));
+                v.add(res.getInt(6));
+                
+                modelo.addRow(v);
+            }
+            
+                tbBuscar.setModel(modelo);
+        }catch (SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+                    
+        }
+        
+        
+    }
+
+    
+    public void buscar(String cod_sup, String name_sup, String cod_mat, String name_mat){
+
+        this.cod_sup=cod_sup;
+        this.name_sup=name_sup;
+        
+        this.cod_mat=cod_mat; 
+        this.name_mat=name_mat;
+
+    }
+    
+     public void Seleccion_registro(){
+
+        DefaultTableModel model = (DefaultTableModel) this.tbBuscar.getModel();
+        
+        String cod_mat = model.getValueAt(tbBuscar.getSelectedRow(), 0).toString(); 
+        String name_mat = model.getValueAt(tbBuscar.getSelectedRow(), 1).toString(); 
+        
+        prueba_rendimiento prueba_rendi = new prueba_rendimiento();
+        
+//        prueba_rendi.txtcodigo_sup.setText(cod);
+//        prueba_rendi.txtname_sup.setText(name);
+//        prueba_rendi.codigo_sup=cod;
+//        prueba_rendi.name_sup=name;
+        
+//        prueba_rendi.cod_mat=this.cod_mat;
+//        prueba_rendi.name_mat=this.name_mat;
+        
+        prueba_rendi.busqueda(this.cod_sup, this.name_sup, cod_mat, name_mat);
+        prueba_rendi.setVisible(true);
+        
+        this.setVisible(false);
+
     }
 
     /**
@@ -82,15 +169,18 @@ public class consulta_materia_prima extends javax.swing.JFrame {
 
         tbBuscar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {"1", "Tabaco1", null, null, null, null},
+                {"2", "Tabaco2", null, null, null, null}
             },
             new String [] {
-                "Razon Social", "Title 2", "Title 3", "Title 4"
+                "Id Materia Prima", "Descripcion", "Razon Social", "Unidad", "Clasificacion", "Status"
             }
         ));
+        tbBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbBuscarMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbBuscar);
 
         btnBuscar1.setBackground(new java.awt.Color(51, 51, 51));
@@ -154,15 +244,21 @@ public class consulta_materia_prima extends javax.swing.JFrame {
 
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
         // TODO add your handling code here:
+        this.Seleccion_registro();
     }//GEN-LAST:event_txtBuscarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+       CargarMateriaPrima();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
         dispose();
     }//GEN-LAST:event_btnBuscar1ActionPerformed
+
+    private void tbBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbBuscarMouseClicked
+        // TODO add your handling code here:
+        this.Seleccion_registro();
+    }//GEN-LAST:event_tbBuscarMouseClicked
 
     /**
      * @param args the command line arguments

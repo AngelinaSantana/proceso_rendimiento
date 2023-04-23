@@ -15,16 +15,38 @@ import javax.swing.JTextField;
  *
  * @author Angelina
  */
-public class prueba_rendimiento extends javax.swing.JFrame {
 
+public class prueba_rendimiento extends javax.swing.JFrame {
+    public String codigo_sup="";
+    public String name_sup="";
+    public String cod_mat="";
+    public String name_mat="";
+//    private String cod;
     /**
      * Creates new form prueba_rendimiento
      */
     public prueba_rendimiento() {
         initComponents();
-         this.setTitle("Prueba de rendimiento");
+        this.setTitle("Prueba de rendimiento");
+        
+//        this.obtenercodigo();
+//        txtcodigo.setText("Hola");
+        
+        
+//        txtprueba.setText("Hola");
+        
     }
-
+    
+    public void busqueda(String cod_sup, String name_sup, String cod_mat, String name_mat){
+        
+        txtcodigo_sup.setText(cod_sup);
+        txtname_sup.setText(name_sup);
+        txtcod_mat.setText(cod_mat);
+        txtname_mat.setText(name_mat);
+//        
+//        JOptionPane.showMessageDialog(this, "Funcion ejecutada, valor ");
+      
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -70,10 +92,10 @@ public class prueba_rendimiento extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        txtcod_mat = new javax.swing.JTextField();
+        txtname_mat = new javax.swing.JTextField();
+        txtcodigo_sup = new javax.swing.JTextField();
+        txtname_sup = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jTextField6 = new javax.swing.JTextField();
         btnNuevo = new javax.swing.JButton();
@@ -82,6 +104,7 @@ public class prueba_rendimiento extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
         btnBuscar_suplidor = new javax.swing.JButton();
         btnBuscar_materia = new javax.swing.JButton();
+        txtprueba = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -231,14 +254,16 @@ public class prueba_rendimiento extends javax.swing.JFrame {
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 420, 943, 330));
         jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 250, 80, -1));
-        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 292, 66, -1));
+        jPanel1.add(txtcod_mat, new org.netbeans.lib.awtextra.AbsoluteConstraints(198, 292, 66, -1));
 
-        jTextField3.setEnabled(false);
-        jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 292, 329, -1));
-        jPanel1.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 334, 74, -1));
+        txtname_mat.setEnabled(false);
+        jPanel1.add(txtname_mat, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 292, 329, -1));
+        jPanel1.add(txtcodigo_sup, new org.netbeans.lib.awtextra.AbsoluteConstraints(152, 334, 74, -1));
 
-        jTextField5.setEnabled(false);
-        jPanel1.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(244, 334, 286, -1));
+        txtname_sup.setEditable(false);
+        txtname_sup.setBackground(new java.awt.Color(255, 255, 255));
+        txtname_sup.setColumns(20);
+        jPanel1.add(txtname_sup, new org.netbeans.lib.awtextra.AbsoluteConstraints(244, 334, 286, -1));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(51, 51, 51));
@@ -287,6 +312,7 @@ public class prueba_rendimiento extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnBuscar_materia, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 290, -1, -1));
+        jPanel1.add(txtprueba, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 350, 150, 30));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 829));
 
@@ -303,8 +329,12 @@ public class prueba_rendimiento extends javax.swing.JFrame {
 
     private void btnBuscar_suplidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar_suplidorActionPerformed
        consulta_suplidor V = new consulta_suplidor();      // creamos una ventana consulta de suplidor
-        V.setVisible(true);
-        
+       this.cod_mat=txtcod_mat.getText();
+       this.name_mat=txtname_mat.getText();
+       
+       V.buscar(this.codigo_sup, this.name_sup, this.cod_mat, this.name_mat);
+       V.setVisible(true);
+        this.setVisible(false); 
     }//GEN-LAST:event_btnBuscar_suplidorActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -313,7 +343,12 @@ public class prueba_rendimiento extends javax.swing.JFrame {
 
     private void btnBuscar_materiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar_materiaActionPerformed
        consulta_materia_prima Vp = new consulta_materia_prima();      // creamos una ventana consulta de materia prima
-        Vp.setVisible(true);
+       this.codigo_sup=txtcodigo_sup.getText();
+       this.name_sup=txtname_sup.getText();
+       
+       Vp.buscar(this.codigo_sup, this.name_sup, this.cod_mat, this.name_mat);
+       Vp.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnBuscar_materiaActionPerformed
 
     /**
@@ -384,7 +419,7 @@ public class prueba_rendimiento extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
+    public javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
@@ -392,13 +427,14 @@ public class prueba_rendimiento extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField txtcod_mat;
+    public javax.swing.JTextField txtcodigo_sup;
+    private javax.swing.JTextField txtname_mat;
+    public javax.swing.JTextField txtname_sup;
+    private javax.swing.JTextField txtprueba;
     // End of variables declaration//GEN-END:variables
 }

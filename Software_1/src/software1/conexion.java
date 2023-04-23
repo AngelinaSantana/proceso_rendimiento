@@ -29,7 +29,7 @@ public class conexion{
 
             return (DriverManager.getConnection(connectionUrl));
             
-
+            
         } 
         catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
