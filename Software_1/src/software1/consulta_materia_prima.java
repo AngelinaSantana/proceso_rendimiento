@@ -17,16 +17,18 @@ import javax.swing.table.DefaultTableModel;
  * @author Angelina
  */
 public class consulta_materia_prima extends javax.swing.JFrame {
-    String cod_sup;
-    String name_sup;
-    String cod_mat; 
-    String name_mat;
+//    String cod_sup;
+//    String name_sup;
+//    String cod_mat; 
+//    String name_mat;
     /**
      * Creates new form consulta_materia_prima
      */
     public consulta_materia_prima() {
         initComponents();
-        this.CargarMateriaPrima();
+        
+        this.setLocationRelativeTo(null);
+//        this.CargarMateriaPrima();
     }
     public void CargarMateriaPrima() {
         String Consulta;
@@ -37,9 +39,13 @@ public class consulta_materia_prima extends javax.swing.JFrame {
 //        Connection conn = conex.getconection();
 //        
 //        Consulta = "Select * from materia_prima";
-          Consulta = "select m.idmateria_prima, m.desc_materia_prima, s.razon_social, st.desc_status from materia_prima m " +
+          Consulta = "select m.idmateria_prima, s.idsuplidor, s.razon_social, c.desc_clasificacion, u.desc_unidad, st.desc_status from materia_prima m " +
                     " inner join suplidor s " +
                     " on s.idsuplidor = m.suplidor_idsuplidor " +
+                    "inner join unidad u"+
+                    " on u.idunidad = m.unidad_idunidad " +
+                    "inner join clasificacion c"+
+                    " on c.idclasificacion = m.clasificacion_idclasificacion " +
                     " inner join status st " +
                     " on st.idstatus = s.status_idstatus";
 //        
@@ -51,12 +57,12 @@ public class consulta_materia_prima extends javax.swing.JFrame {
         try{
             while(res.next()){
                 Vector v = new Vector();
-                v.add(res.getInt(1));
+                v.add(res.getString(1));
                 v.add(res.getString(2));
-                v.add(res.getInt(3));
-                v.add(res.getInt(4));
-                v.add(res.getInt(5));
-                v.add(res.getInt(6));
+                v.add(res.getString(3));
+                v.add(res.getString(4));
+                v.add(res.getString(5));
+                v.add(res.getString(6));
                 
                 modelo.addRow(v);
             }
@@ -71,22 +77,26 @@ public class consulta_materia_prima extends javax.swing.JFrame {
     }
 
     
-    public void buscar(String cod_sup, String name_sup, String cod_mat, String name_mat){
-
-        this.cod_sup=cod_sup;
-        this.name_sup=name_sup;
-        
-        this.cod_mat=cod_mat; 
-        this.name_mat=name_mat;
-
-    }
+//    public void buscar(String cod_sup, String name_sup, String cod_mat, String name_mat){
+//
+//        this.cod_sup=cod_sup;
+//        this.name_sup=name_sup;
+//        
+//        this.cod_mat=cod_mat; 
+//        this.name_mat=name_mat;
+//
+//    }
     
      public void Seleccion_registro(){
 
         DefaultTableModel model = (DefaultTableModel) this.tbBuscar.getModel();
         
         String cod_mat = model.getValueAt(tbBuscar.getSelectedRow(), 0).toString(); 
-        String name_mat = model.getValueAt(tbBuscar.getSelectedRow(), 1).toString(); 
+        String name_mat = model.getValueAt(tbBuscar.getSelectedRow(), 3).toString();
+        
+        
+        String cod_sup = model.getValueAt(tbBuscar.getSelectedRow(), 1).toString(); 
+        String name_sup = model.getValueAt(tbBuscar.getSelectedRow(), 2).toString();
         
         prueba_rendimiento prueba_rendi = new prueba_rendimiento();
         
@@ -98,7 +108,7 @@ public class consulta_materia_prima extends javax.swing.JFrame {
 //        prueba_rendi.cod_mat=this.cod_mat;
 //        prueba_rendi.name_mat=this.name_mat;
         
-        prueba_rendi.busqueda(this.cod_sup, this.name_sup, cod_mat, name_mat);
+        prueba_rendi.busqueda(cod_sup, name_sup, cod_mat, name_mat);
         prueba_rendi.setVisible(true);
         
         this.setVisible(false);
@@ -169,11 +179,10 @@ public class consulta_materia_prima extends javax.swing.JFrame {
 
         tbBuscar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", "Tabaco1", null, null, null, null},
-                {"2", "Tabaco2", null, null, null, null}
+
             },
             new String [] {
-                "Id Materia Prima", "Descripcion", "Razon Social", "Unidad", "Clasificacion", "Status"
+                "Id Materia Prima", "Id Suplidor", "Razon Social", "Clasificacion", "Unidad", "Status"
             }
         ));
         tbBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
